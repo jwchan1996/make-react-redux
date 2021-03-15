@@ -36,3 +36,13 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 ```
+
+## Provider
+
+额外构建一个组件来做这种脏活，然后让这个组件成为组件树的根节点，那么它的子组件都可以获取到 context 了。
+
+我们把这个组件叫 Provider，因为它提供（provide）了 store：
+
+![image](https://ae01.alicdn.com/kf/U831d23661a52446ba6358b67a785ab3bT.jpg)
+
+Provider 做的事情也很简单，它就是一个容器组件，会把嵌套的内容原封不动作为自己的子组件渲染出来。它还会把外界传给它的 props.store 放到 context，这样子组件 connect 的时候都可以获取到。

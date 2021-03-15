@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import Header from './Header'
 import Content from './Content'
 import './index.css'
+import { Provider } from './react-redux'
 
 function createStore (reducer) {
   let state = null
@@ -32,14 +33,15 @@ const themeReducer = (state, action) => {
 
 const store = createStore(themeReducer)
 
+// 删除 Index 里面所有关于 context 的代码
 class Index extends Component {
-  static childContextTypes = {
-    store: PropTypes.object
-  }
+  // static childContextTypes = {
+  //   store: PropTypes.object
+  // }
 
-  getChildContext () {
-    return { store }
-  }
+  // getChildContext () {
+  //   return { store }
+  // }
 
   render () {
     return (
@@ -51,7 +53,15 @@ class Index extends Component {
   }
 }
 
+// ReactDOM.render(
+//   <Index />,
+//   document.getElementById('root')
+// )
+
+// 把 Provider 作为组件树的根节点
 ReactDOM.render(
-  <Index />,
+  <Provider store={store}>
+    <Index />
+  </Provider>,
   document.getElementById('root')
 )
