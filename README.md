@@ -22,3 +22,17 @@
 ![image](https://ae01.alicdn.com/kf/U82acf931211e4fa2a3794e7d7724dd22o.jpg)
 
 我们把这个高阶组件起名字叫 connect，因为它把 Dumb 组件和 context 连接（connect）起来了。
+
+## mapDispatchToProps
+
+既然可以通过给 connect 函数传入 mapStateToProps 来告诉它如何获取、整合状态，我们也可以想到，可以给它传入另外一个参数来告诉它我们的组件需要如何触发 dispatch。我们把这个参数叫 mapDispatchToProps：
+
+```js
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSwitchColor: (color) => {
+      dispatch({ type: 'CHANGE_COLOR', themeColor: color })
+    }
+  }
+}
+```

@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 //   }
 // }
 
-export const connect = (mapStateToProps) => (WrappedComponent) => {
+export const connect = (mapStateToProps, mapDispatchToProps) => (WrappedComponent) => {
   class Connect extends Component {
     static contextTypes = {
       store: PropTypes.object
@@ -33,10 +33,19 @@ export const connect = (mapStateToProps) => (WrappedComponent) => {
       // 为了解决 context 强耦合性以及组件可复用性的问题，引入高阶组件
       // 高阶组件和 context 打交道，把里面数据取出来通过 props 传给 Dumb 组件（指的是呆呆组件）。
       const { store } = this.context
-      let stateProps = mapStateToProps(store.getState(), this.props) // 额外传入 props，让获取数据更加灵活方便
+      // let stateProps = mapStateToProps(store.getState(), this.props) // 额外传入 props，让获取数据更加灵活方便
+      // this.setState({
+      //   allProps: { // 整合普通的 props 和从 state 生成的 props
+      //     ...stateProps,
+      //     ...this.props
+      //   }
+      // })
+      let stateProps = mapStateToProps ? mapStateToProps(store.getState(), this.props) : {} // 防止 mapStateToProps 没有传入
+      let dispatchProps = mapDispatchToProps ? mapDispatchToProps(store.dispatch, this.props) : {} // 防止 mapDispatchToProps 没有传入
       this.setState({
-        allProps: { // 整合普通的 props 和从 state 生成的 props
+        allProps: {
           ...stateProps,
+          ...dispatchProps,
           ...this.props
         }
       })
